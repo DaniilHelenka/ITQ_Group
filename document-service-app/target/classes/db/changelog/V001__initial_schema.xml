@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <!-- Sequence for document numbers -->
+    <changeSet id="001-create-document-sequence" author="itq">
+        <createSequence sequenceName="document_number_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- Table: document -->
+    <changeSet id="001-create-document-table" author="itq">
+        <createTable tableName="document">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="document_number" type="VARCHAR(20)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="author" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="version" type="BIGINT" defaultValueNumeric="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="document" indexName="idx_document_status">
+            <column name="status"/>
+        </createIndex>
+        <createIndex tableName="document" indexName="idx_document_author">
+            <column name="author"/>
+        </createIndex>
+        <createIndex tableName="document" indexName="idx_document_created_at">
+            <column name="created_at"/>
+        </createIndex>
+        <createIndex tableName="document" indexName="idx_document_status_created_at">
+            <column name="status"/>
+            <column name="created_at"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Table: document_history -->
+    <changeSet id="001-create-document-history-table" author="itq">
+        <createTable tableName="document_history">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="document_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="performed_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="action" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(1000)"/>
+            <column name="created_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="document_history" baseColumnNames="document_id"
+                referencedTableName="document" referencedColumnNames="id"
+                constraintName="fk_document_history_document"/>
+
+        <createIndex tableName="document_history" indexName="idx_document_history_document_id">
+            <column name="document_id"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Table: approval_registry -->
+    <changeSet id="001-create-approval-registry-table" author="itq">
+        <createTable tableName="approval_registry">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="document_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="approved_by" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="approved_at" type="TIMESTAMP" defaultValueComputed="NOW()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="approval_registry" baseColumnNames="document_id"
+                referencedTableName="document" referencedColumnNames="id"
+                constraintName="fk_approval_registry_document"/>
+
+        <createIndex tableName="approval_registry" indexName="idx_approval_registry_document_id">
+            <column name="document_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

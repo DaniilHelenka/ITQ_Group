@@ -1,0 +1,16 @@
+ru\itq\api\dto\BatchOperationResult.class
+ru\itq\api\dto\DocumentHistoryResponse$DocumentHistoryResponseBuilder.class
+ru\itq\api\dto\DocumentStatus.class
+ru\itq\api\dto\HistoryAction.class
+ru\itq\api\dto\SearchDocumentRequest.class
+ru\itq\api\dto\ApiError$ApiErrorBuilder.class
+ru\itq\api\dto\ConcurrentApproveTestResponse$ConcurrentApproveTestResponseBuilder.class
+ru\itq\api\dto\ConcurrentApproveTestResponse.class
+ru\itq\api\dto\ApiError.class
+ru\itq\api\dto\DocumentResponse$DocumentResponseBuilder.class
+ru\itq\api\dto\BatchOperationRequest.class
+ru\itq\api\dto\CreateDocumentRequest.class
+ru\itq\api\dto\ConcurrentApproveTestRequest.class
+ru\itq\api\dto\DocumentHistoryResponse.class
+ru\itq\api\dto\DocumentResponse.class
+ru\itq\api\dto\BatchOperationResult$BatchOperationResultBuilder.class
